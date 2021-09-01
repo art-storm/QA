@@ -59,5 +59,6 @@ hs_err_pid*
 # Terraform files
 terraform/.terraform
 terraform/*.hcl
+terraform/*.info
 terraform/*.tfstate
 terraform/*.tfstate.backup
