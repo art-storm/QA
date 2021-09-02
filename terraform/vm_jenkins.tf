@@ -26,7 +26,7 @@ resource "azurerm_public_ip" "jenkins" {
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "jenkins" {
     network_interface_id      = azurerm_network_interface.jenkins.id
-    network_security_group_id = azurerm_network_security_group.main.id
+    network_security_group_id = azurerm_network_security_group.vm.id
 }
 
 resource "azurerm_virtual_machine" "jenkins" {
