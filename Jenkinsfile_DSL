@@ -1,4 +1,9 @@
 pipeline {
+    environment {
+        imagename = "test-app-java"
+        dockerImage = ''
+    }
+
     agent any
 
     stages {
@@ -22,7 +27,7 @@ pipeline {
         stage('Building image') {
             steps{
                 script {
-                    dockerImage = docker.build test-app-java
+                    dockerImage = docker.build imagename
                 }
             }
         }
