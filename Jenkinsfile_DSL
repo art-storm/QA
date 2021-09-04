@@ -1,7 +1,8 @@
 pipeline {
     environment {
         imagename = "igorunnamed/test-app-java"
-        registryCredential = 'docker_hub'
+        registryProvider = 'registrydockerimages2.azurecr.io'
+        registryCredential = 'azure-container-registry'
         dockerImage = ''
     }
 
@@ -37,7 +38,7 @@ pipeline {
             steps {
                 script {
                     if (env.PUSH_TO_REGISTRY == 'true') {
-                        docker.withRegistry( '', registryCredential ) {
+                        docker.withRegistry( registryProvider, registryCredential ) {
                             dockerImage.push("${env.GIT_COMMIT}")
                             dockerImage.push("latest")
                         }
