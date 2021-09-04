@@ -38,7 +38,7 @@ pipeline {
                     if (env.PUSH_TO_REGISTRY) {
                         echo 'Push image'
                     } else {
-                        echo "Don't push image'
+                        echo "Do not push image"
                     }
                 }
             }
