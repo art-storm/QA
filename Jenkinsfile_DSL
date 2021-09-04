@@ -50,7 +50,9 @@ pipeline {
 
         stage('Cleaning up') {
             steps {
-                sh "docker rmi ${dockerImage.id}"
+                sh '''
+                    docker images | grep "${imagename}" | awk '{print $1}' | xargs docker rmi
+                '''
             }
         }
 
