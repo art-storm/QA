@@ -35,7 +35,7 @@ pipeline {
         stage('Push image') {
             steps {
                 script {
-                    if (env.PUSH_TO_REGISTRY) {
+                    if (env.PUSH_TO_REGISTRY == 'true') {
                         echo 'Push image'
                     } else {
                         echo "Do not push image"

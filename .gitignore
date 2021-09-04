@@ -62,3 +62,4 @@ terraform/*.hcl
 terraform/*.info
 terraform/*.tfstate
 terraform/*.tfstate.backup
+terraform/*.txt
