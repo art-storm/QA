@@ -35,7 +35,6 @@ pipeline {
         stage('Push image') {
             steps {
                 sh 'echo $PUSH_TO_REGISTRY'
-                }
             }
         }
 
