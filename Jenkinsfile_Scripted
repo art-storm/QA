@@ -1,6 +1,8 @@
 node {
 
     def imagename = "igorunnamed/test-app-java"
+    def registryProvider = 'http://registrydockerimages.azurecr.io'
+    def registryCredential = 'docker_hub'
     def dockerImage = ''
 
     stage('Clone sources') {
@@ -17,6 +19,17 @@ node {
 
     stage('Building image') {
         dockerImage = docker.build imagename
+    }
+
+    stage('Push image') {
+        if (env.PUSH_TO_REGISTRY == 'true') {
+            docker.withRegistry('', registryCredential) {
+                dockerImage.push("${env.GIT_COMMIT}")
+                dockerImage.push("latest")
+            }
+        } else {
+            echo "Docker image wasn't pushed"
+        }
     }
 
 }
