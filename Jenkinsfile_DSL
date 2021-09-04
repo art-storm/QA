@@ -1,6 +1,7 @@
 pipeline {
     environment {
         imagename = "test-app-java"
+        registryCredential = 'docker_hub'
         dockerImage = ''
     }
 
@@ -36,7 +37,9 @@ pipeline {
             steps {
                 script {
                     if (env.PUSH_TO_REGISTRY == 'true') {
-                        dockerImage.push('latest')
+                        docker.withRegistry( '', registryCredential ) {
+                            dockerImage.push('latest')
+                        }
                     } else {
                         echo "Docker image wasn't pushed"
                     }
