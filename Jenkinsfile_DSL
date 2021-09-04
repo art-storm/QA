@@ -1,7 +1,7 @@
 pipeline {
     environment {
-        imagename = "registrydockerimages2/test-app-java"
-        registryProvider = 'http://registrydockerimages2.azurecr.io'
+        imagename = "registrydockerimages/test-app-java"
+        registryProvider = 'http://registrydockerimages.azurecr.io'
         registryCredential = 'azure-container-registry'
         dockerImage = ''
     }
