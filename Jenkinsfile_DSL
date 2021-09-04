@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     if (env.PUSH_TO_REGISTRY == 'true') {
-                        docker.withRegistry( registryProvider, registryCredential ) {
+                        docker.withRegistry( "http://${registryProvider}", registryCredential ) {
                             dockerImage.push("${env.GIT_COMMIT}")
                             dockerImage.push("latest")
                         }
