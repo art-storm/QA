@@ -1,5 +1,8 @@
 node {
 
+    def imagename = "igorunnamed/test-app-java"
+    def dockerImage = ''
+
     stage('Clone sources') {
         git url: 'https://github.com/art-storm/QA.git'
     }
@@ -10,6 +13,10 @@ node {
 
     stage('Test') {
         sh 'mvn test'
+    }
+
+    stage('Building image') {
+        dockerImage = docker.build imagename
     }
 
 }
