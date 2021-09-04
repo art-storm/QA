@@ -38,7 +38,7 @@ pipeline {
                 script {
                     if (env.PUSH_TO_REGISTRY == 'true') {
                         docker.withRegistry( '', registryCredential ) {
-                            dockerImage.push("${env.BUILD_NUMBER}")
+                            dockerImage.push("${env.GIT_COMMIT}")
                             dockerImage.push('latest')
                         }
                     } else {
