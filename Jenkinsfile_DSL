@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        imagename = "test-app-java"
+        imagename = "igorunnamed/test-app-java"
         registryCredential = 'docker_hub'
         dockerImage = ''
     }
