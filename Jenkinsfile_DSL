@@ -36,9 +36,9 @@ pipeline {
             steps {
                 script {
                     if (env.PUSH_TO_REGISTRY == 'true') {
-                        echo 'Push image'
+                        dockerImage.push('latest')
                     } else {
-                        echo "Do not push image"
+                        echo "Docker image wasn't pushed"
                     }
                 }
             }
