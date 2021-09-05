@@ -6,7 +6,7 @@ node {
     def dockerImage = ''
 
     stage('Clone sources') {
-        git branch: 'temp', url: 'https://github.com/art-storm/QA.git'
+        git branch: 'master', url: 'https://github.com/art-storm/QA.git'
     }
 
     stage('Build') {
