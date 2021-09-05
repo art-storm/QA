@@ -1,12 +1,12 @@
 node {
 
-    def imagename = "igorunnamed/test-app-java"
+    def imagename = "registrydockerimages/test-app-java"
     def registryProvider = 'http://registrydockerimages.azurecr.io'
-    def registryCredential = 'docker_hub'
+    def registryCredential = 'azure-container-registry'
     def dockerImage = ''
 
     stage('Clone sources') {
-        git url: 'https://github.com/art-storm/QA.git'
+        git branch: 'temp', url: 'https://github.com/art-storm/QA.git'
     }
 
     stage('Build') {
@@ -15,7 +15,7 @@ node {
 
     stage('Test') {
         sh 'mvn test'
-        junit '**/test-results/test/*.xml'
+        junit 'target/surefire-reports/*.xml'
     }
 
     stage('Building image') {
@@ -24,13 +24,19 @@ node {
 
     stage('Push image') {
         if (env.PUSH_TO_REGISTRY == 'true') {
-            docker.withRegistry('', registryCredential) {
-                dockerImage.push("${env.GIT_COMMIT}")
+            commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
+
+            docker.withRegistry(registryProvider, registryCredential) {
+                dockerImage.push("${commitId}")
                 dockerImage.push("latest")
             }
         } else {
             echo "Docker image wasn't pushed"
         }
+    }
+
+    stage('Cleaning up') {
+        sh "docker images | grep '$imagename' | awk '{print \$3}' | xargs docker rmi -f"
     }
 
 }
