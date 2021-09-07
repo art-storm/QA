@@ -13,3 +13,13 @@ variable "admin_user" {
   default = "igor"
   description = "Default admin user"
 }
+
+variable "docker_image" {
+  default = "registrydockerimages/test-app-java"
+  description = "Docker image name"
+}
+
+variable "docker_image_tag" {
+  default = "latest"
+  description = "Docker image tag"
+}

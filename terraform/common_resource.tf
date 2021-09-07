@@ -52,7 +52,7 @@ resource "azurerm_network_security_group" "subnet" {
         protocol                   = "Tcp"
         source_port_range          = "*"
         destination_port_range     = "22"
-        source_address_prefixes    = ["86.57.255.94", "37.214.25.161"]
+        source_address_prefixes    = ["86.57.255.94", "37.214.39.185"]
         destination_address_prefix = "*"
     }
 
@@ -64,7 +64,19 @@ resource "azurerm_network_security_group" "subnet" {
         protocol                   = "Tcp"
         source_port_range          = "*"
         destination_port_range     = "8080"
-        source_address_prefixes    = ["86.57.255.94", "37.214.25.161"]
+        source_address_prefixes    = ["86.57.255.94", "37.214.39.185"]
+        destination_address_prefix = "*"
+    }
+
+    security_rule {
+        name                       = "PostgreSQL"
+        priority                   = 1030
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "5432"
+        source_address_prefix      = "*"
         destination_address_prefix = "*"
     }
 

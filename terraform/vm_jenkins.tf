@@ -16,7 +16,7 @@ resource "azurerm_public_ip" "jenkins" {
   name                = "${var.prefix}-publicIp-jenkins"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
 
   tags = {
     environment = "testing"
@@ -62,6 +62,10 @@ resource "azurerm_virtual_machine" "jenkins" {
       key_data = file("d:/Programs/ssh-keys/azure-weu-key.pub")
       path = "/home/${var.admin_user}/.ssh/authorized_keys"
     }
+  }
+
+  lifecycle {
+    prevent_destroy = true
   }
 
   tags = {
