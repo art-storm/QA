@@ -1,7 +1,7 @@
 node {
 
-    def imagename = "registrydockerimages/test-app-java"
-    def registryProvider = 'http://registrydockerimages.azurecr.io'
+    def imagename = "crappjavatest/test-app-java"
+    def registryProvider = 'http://crappjavatest.azurecr.io'
     def registryCredential = 'azure-container-registry'
     def dockerImage = ''
 

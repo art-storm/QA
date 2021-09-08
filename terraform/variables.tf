@@ -15,11 +15,16 @@ variable "admin_user" {
 }
 
 variable "docker_image" {
-  default = "registrydockerimages/test-app-java"
+  default = "/test-app-java"
   description = "Docker image name"
 }
 
 variable "docker_image_tag" {
   default = "latest"
+  description = "Docker image tag"
+}
+
+variable "db_connect_string" {
+  default = "jdbc:postgresql://137.116.192.131:5432/qa_db"
   description = "Docker image tag"
 }
