@@ -13,15 +13,13 @@ pipeline {
 
         stage('Terraform init') {
             steps {
-                sh 'cd ./terraform'
-                sh 'terraform init'
+                sh 'cd ./terraform && terraform init'
             }
         }
 
         stage('Terraform apply') {
             steps {
-                sh 'cd ./terraform'
-                sh 'terraform apply --auto-approve'
+                sh 'cd ./terraform && terraform apply --auto-approve'
             }
         }
 
