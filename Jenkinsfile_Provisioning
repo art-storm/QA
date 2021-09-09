@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    tools {
+        terraform 'terraform-1.0.6'
+    }
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/art-storm/QA.git'
+            }
+        }
+
+        stage('Terraform init') {
+            steps {
+                sh 'cd ./terraform'
+                sh 'terraform init'
+            }
+        }
+
+        stage('Terraform apply') {
+            steps {
+                sh 'cd ./terraform'
+                sh 'terraform apply --auto-approve'
+            }
+        }
+
+    }
+
+}
