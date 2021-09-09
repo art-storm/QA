@@ -15,7 +15,7 @@ variable "admin_user" {
 }
 
 variable "docker_image" {
-  default = "/test-app-java"
+  default = "crappjavatest/test-app-java"
   description = "Docker image name"
 }
 
