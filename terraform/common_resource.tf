@@ -59,7 +59,7 @@ resource "azurerm_network_security_group" "subnet" {
         protocol                   = "Tcp"
         source_port_range          = "*"
         destination_port_range     = "22"
-        source_address_prefixes    = ["86.57.255.94", "37.214.39.185"]
+        source_address_prefixes    = ["86.57.255.94", "37.214.68.222"]
         destination_address_prefix = "*"
     }
 
@@ -71,7 +71,7 @@ resource "azurerm_network_security_group" "subnet" {
         protocol                   = "Tcp"
         source_port_range          = "*"
         destination_port_range     = "8080"
-        source_address_prefixes    = ["86.57.255.94", "37.214.39.185"]
+        source_address_prefixes    = ["86.57.255.94", "37.214.68.222"]
         destination_address_prefix = "*"
     }
 

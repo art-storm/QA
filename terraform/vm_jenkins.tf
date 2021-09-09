@@ -59,7 +59,7 @@ resource "azurerm_virtual_machine" "jenkins" {
   os_profile_linux_config {
     disable_password_authentication = true
     ssh_keys {
-      key_data = file("d:/Programs/ssh-keys/azure-weu-key.pub")
+      key_data = file("~/.ssh/azure-weu-key.pub")
       path = "/home/${var.admin_user}/.ssh/authorized_keys"
     }
   }
