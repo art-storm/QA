@@ -13,7 +13,14 @@ pipeline {
 
         stage('Terraform init') {
             steps {
-                withCredentials([azureServicePrincipal('azure-service-principle')]) {
+                withCredentials([azureServicePrincipal(
+                    credentialsId: 'azure-service-principle',
+                    subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+                    clientIdVariable: 'ARM_CLIENT_ID',
+                    clientSecretVariable: 'ARM_CLIENT_SECRET',
+                    tenantIdVariable: 'ARM_TENANT_ID'
+                    )])
+                {
                     sh '''
                         cd ./terraform && terraform init
                     '''
