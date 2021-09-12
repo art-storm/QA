@@ -4,9 +4,6 @@ pipeline {
         terraform 'terraform-1.0.6'
     }
 
-    environment {
-    }
-
     stages {
         stage('Git Checkout') {
             steps {
