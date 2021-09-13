@@ -1,6 +1,6 @@
 
 resource "azurerm_resource_group" "tfstate" {
-  name     = "tfstate"
+  name     = "rg-tfstate"
   location = azurerm_resource_group.main.location
 }
 
@@ -22,4 +22,8 @@ resource "azurerm_storage_container" "tfstate" {
   name                  = "tfstate"
   storage_account_name  = azurerm_storage_account.tfstate.name
   container_access_type = "blob"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }

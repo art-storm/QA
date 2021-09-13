@@ -5,12 +5,6 @@ pipeline {
     }
 
     stages {
-        stage('Git Checkout') {
-            steps {
-                git branch: 'master', url: 'https://github.com/art-storm/QA.git'
-            }
-        }
-
         stage('Terraform init') {
             steps {
                 withCredentials([azureServicePrincipal(
