@@ -21,6 +21,11 @@ provider "azurerm" {
   features {}
 }
 
+resource "azurerm_resource_group" "common" {
+  name = "rg-main"
+  location = var.location
+}
+
 resource "azurerm_resource_group" "main" {
   name = "${var.prefix}-RG"
   location = var.location

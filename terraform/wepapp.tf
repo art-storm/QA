@@ -7,8 +7,8 @@ resource "azurerm_app_service_plan" "webapp" {
   reserved            = true
 
   sku {
-    tier = "Basic"
-    size = "B1"
+    tier = "Free"
+    size = "F1"
   }
 }
 
@@ -20,6 +20,7 @@ resource "azurerm_app_service" "webapp" {
 
   site_config {
     linux_fx_version  = "DOCKER|${azurerm_container_registry.acr.login_server}/${var.docker_image}:${var.docker_image_tag}"
+    use_32_bit_worker_process = true
   }
 
   app_settings = {

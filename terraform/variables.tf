@@ -26,5 +26,5 @@ variable "docker_image_tag" {
 
 variable "db_connect_string" {
   default = "jdbc:postgresql://137.116.192.131:5432/qa_db"
-  description = "Docker image tag"
+  description = "DB connection string"
 }
