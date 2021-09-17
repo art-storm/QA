@@ -22,7 +22,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "main" {
-  name = "${var.prefix}-RG"
+  name = var.rg-main
   location = var.location
 }
 

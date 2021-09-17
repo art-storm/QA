@@ -27,3 +27,33 @@ resource "azurerm_storage_container" "tfstate" {
     prevent_destroy = true
   }
 }
+
+resource "azurerm_storage_container" "tfstate-dev" {
+  name                  = "tfstate-dev"
+  storage_account_name  = azurerm_storage_account.tfstate.name
+  container_access_type = "blob"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "azurerm_storage_container" "tfstate-stage" {
+  name                  = "tfstate-stage"
+  storage_account_name  = azurerm_storage_account.tfstate.name
+  container_access_type = "blob"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "azurerm_storage_container" "tfstate-prod" {
+  name                  = "tfstate-prod"
+  storage_account_name  = azurerm_storage_account.tfstate.name
+  container_access_type = "blob"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
