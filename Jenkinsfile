@@ -67,7 +67,7 @@ pipeline {
                     tenantIdVariable: 'ARM_TENANT_ID'
                     )])
                 {
-                    sh 'cd ./terraform && terraform init'
+                    sh 'cd ./terraform/dev && terraform init'
                 }
             }
         }
