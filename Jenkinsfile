@@ -104,9 +104,6 @@ pipeline {
         }
 
         stage('Deploy to production') {
-            when {
-                branch 'release'
-            }
 
             steps {
                 withCredentials([azureServicePrincipal(
