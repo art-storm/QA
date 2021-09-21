@@ -103,20 +103,20 @@ pipeline {
             }
         }
 
-//         stage('Deploy to production') {
-//             steps{
-//             step {
-//                 withCredentials([azureServicePrincipal(
-//                     credentialsId: 'azure-service-principle',
-//                     subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
-//                     clientIdVariable: 'ARM_CLIENT_ID',
-//                     clientSecretVariable: 'ARM_CLIENT_SECRET',
-//                     tenantIdVariable: 'ARM_TENANT_ID'
-//                     )])
-//                 {
-//                     sh 'cd ./terraform/prod && terraform init'
-//                 }
-//             }
+        stage('Deploy to production') {
+            steps{
+            step {
+                withCredentials([azureServicePrincipal(
+                    credentialsId: 'azure-service-principle',
+                    subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+                    clientIdVariable: 'ARM_CLIENT_ID',
+                    clientSecretVariable: 'ARM_CLIENT_SECRET',
+                    tenantIdVariable: 'ARM_TENANT_ID'
+                    )])
+                {
+                    sh 'cd ./terraform/prod && terraform init'
+                }
+            }
 //             step {
 //                 withCredentials([azureServicePrincipal(
 //                     credentialsId: 'azure-service-principle',
@@ -141,9 +141,9 @@ pipeline {
 //                     sh 'cd ./terraform/prod && terraform apply -var-file="prod.tfvars" --auto-approve'
 //                 }
 //             }
-//             }
-//
-//         }
+            }
+
+        }
 
     }
 }
