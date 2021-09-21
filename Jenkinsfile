@@ -104,7 +104,8 @@ pipeline {
         }
 
         stage('Deploy to production') {
-
+            milestone()
+            echo "Building"
             steps {
                 withCredentials([azureServicePrincipal(
                     credentialsId: 'azure-service-principle',
