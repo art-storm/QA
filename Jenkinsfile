@@ -7,6 +7,9 @@ pipeline {
     }
 
     agent any
+    tools {
+        terraform 'terraform-1.0.6'
+    }
 
     stages {
         stage('Build') {
@@ -51,6 +54,21 @@ pipeline {
                 sh '''
                     docker images | grep "${imagename}" | awk '{print $3}' | xargs docker rmi -f
                 '''
+            }
+        }
+
+        stage('Terraform init') {
+            steps {
+                withCredentials([azureServicePrincipal(
+                    credentialsId: 'azure-service-principle',
+                    subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+                    clientIdVariable: 'ARM_CLIENT_ID',
+                    clientSecretVariable: 'ARM_CLIENT_SECRET',
+                    tenantIdVariable: 'ARM_TENANT_ID'
+                    )])
+                {
+                    sh 'cd ./terraform && terraform init'
+                }
             }
         }
 
