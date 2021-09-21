@@ -83,7 +83,7 @@ pipeline {
                     tenantIdVariable: 'ARM_TENANT_ID'
                     )])
                 {
-                    sh 'cd ./terraform/environment && terraform plan -var-file="${environment}.tfvars" '
+                    sh 'cd ./terraform/${environment} && terraform plan -var-file="${environment}.tfvars" '
                 }
             }
         }
