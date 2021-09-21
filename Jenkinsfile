@@ -4,6 +4,7 @@ pipeline {
         registryProvider = 'http://crappjavatest.azurecr.io'
         registryCredential = 'azure-container-registry'
         dockerImage = ''
+        environment = getEnvironment(env.GIT_BRANCH)
     }
 
     agent any
@@ -67,7 +68,7 @@ pipeline {
                     tenantIdVariable: 'ARM_TENANT_ID'
                     )])
                 {
-                    sh 'cd ./terraform/dev && terraform init'
+                    sh 'cd ./terraform/${environment} && terraform init'
                 }
             }
         }
@@ -82,7 +83,7 @@ pipeline {
                     tenantIdVariable: 'ARM_TENANT_ID'
                     )])
                 {
-                    sh 'cd ./terraform/dev && terraform plan -var-file="dev.tfvars" '
+                    sh 'cd ./terraform/environment && terraform plan -var-file="${environment}.tfvars" '
                 }
             }
         }
@@ -97,7 +98,7 @@ pipeline {
                     tenantIdVariable: 'ARM_TENANT_ID'
                     )])
                 {
-                    sh 'cd ./terraform/dev && terraform apply -var-file="dev.tfvars" --auto-approve'
+                    sh 'cd ./terraform/${environment} && terraform apply -var-file="${environment}.tfvars" --auto-approve'
                 }
             }
         }
@@ -112,4 +113,13 @@ def getImageName(branch = 'dev') {
     }
 
     return imagename
+}
+
+def getEnvironment(branch = 'dev') {
+    def env = "dev"
+    if (branch == 'release') {
+        env = "staging"
+    }
+
+    return env
 }
