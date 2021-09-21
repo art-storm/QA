@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        imagename = "crappjavatest/dev-app-java"
+        imagename = getImageName(env.GIT_BRANCH)
         registryProvider = 'http://crappjavatest.azurecr.io'
         registryCredential = 'azure-container-registry'
         dockerImage = ''
@@ -30,9 +30,6 @@ pipeline {
         stage('Building image') {
             steps {
                 script {
-                    if (env.GIT_BRANCH == 'release') {
-                        imagename = "crappjavatest/dev-app-java"
-                    }
                     dockerImage = docker.build imagename
                 }
             }
@@ -41,13 +38,9 @@ pipeline {
         stage('Push image') {
             steps {
                 script {
-                    if (env.PUSH_TO_REGISTRY == 'true') {
-                        docker.withRegistry( registryProvider, registryCredential ) {
-                            dockerImage.push("${env.GIT_COMMIT}")
-                            dockerImage.push("latest")
-                        }
-                    } else {
-                        echo "Docker image wasn't pushed"
+                    docker.withRegistry( registryProvider, registryCredential ) {
+                        dockerImage.push("${env.GIT_COMMIT}")
+                        dockerImage.push("latest")
                     }
                 }
             }
@@ -62,4 +55,13 @@ pipeline {
         }
 
     }
+}
+
+def getImageName(branch = 'dev') {
+    def imagename = "crappjavatest/dev-app-java"
+    if (branch == 'release') {
+        imagename = "crappjavatest/rc-app-java"
+    }
+
+    return imagename
 }
