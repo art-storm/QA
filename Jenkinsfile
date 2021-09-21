@@ -104,11 +104,13 @@ pipeline {
         }
 
         stage('Deploy to production') {
+
+            milestone()
+            echo "Test milestone"
+
             when {
                 branch 'release'
             }
-            milestone()
-            echo "Test milestone"
 
             steps {
                 withCredentials([azureServicePrincipal(
