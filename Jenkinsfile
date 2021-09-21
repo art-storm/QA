@@ -82,7 +82,7 @@ pipeline {
                     tenantIdVariable: 'ARM_TENANT_ID'
                     )])
                 {
-                    sh 'cd ./terraform/dev && terraform plan'
+                    sh 'cd ./terraform/dev && terraform plan -var-file="dev.tfvars" '
                 }
             }
         }
@@ -97,7 +97,7 @@ pipeline {
                     tenantIdVariable: 'ARM_TENANT_ID'
                     )])
                 {
-                    sh 'cd ./terraform/dev && terraform apply --auto-approve'
+                    sh 'cd ./terraform/dev && terraform apply -var-file="dev.tfvars" --auto-approve'
                 }
             }
         }
