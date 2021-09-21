@@ -148,6 +148,7 @@ pipeline {
                     sh 'cd ./terraform/prod && terraform apply -var-file="prod.tfvars" --auto-approve'
                 }
             }
+            milestone()
 
         }
 
