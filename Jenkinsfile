@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        imagename = "crappjavatest/test-app-java"
+        imagename = "crappjavatest/dev-app-java"
         registryProvider = 'http://crappjavatest.azurecr.io'
         registryCredential = 'azure-container-registry'
         dockerImage = ''
@@ -30,6 +30,9 @@ pipeline {
         stage('Building image') {
             steps {
                 script {
+                    if (env.GIT_BRANCH == 'release') {
+                        imagename = "crappjavatest/dev-app-java"
+                    }
                     dockerImage = docker.build imagename
                 }
             }
