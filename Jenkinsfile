@@ -103,6 +103,52 @@ pipeline {
             }
         }
 
+        stage('Deploy to production') {
+            when {
+                branch 'release'
+            }
+            milestone()
+            echo "Test milestone"
+
+            steps {
+                withCredentials([azureServicePrincipal(
+                    credentialsId: 'azure-service-principle',
+                    subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+                    clientIdVariable: 'ARM_CLIENT_ID',
+                    clientSecretVariable: 'ARM_CLIENT_SECRET',
+                    tenantIdVariable: 'ARM_TENANT_ID'
+                    )])
+                {
+                    sh 'cd ./terraform/prod && terraform init'
+                }
+            }
+            steps {
+                withCredentials([azureServicePrincipal(
+                    credentialsId: 'azure-service-principle',
+                    subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+                    clientIdVariable: 'ARM_CLIENT_ID',
+                    clientSecretVariable: 'ARM_CLIENT_SECRET',
+                    tenantIdVariable: 'ARM_TENANT_ID'
+                    )])
+                {
+                    sh 'cd ./terraform/prod && terraform plan -var-file="prod.tfvars" '
+                }
+            }
+            steps {
+                withCredentials([azureServicePrincipal(
+                    credentialsId: 'azure-service-principle',
+                    subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+                    clientIdVariable: 'ARM_CLIENT_ID',
+                    clientSecretVariable: 'ARM_CLIENT_SECRET',
+                    tenantIdVariable: 'ARM_TENANT_ID'
+                    )])
+                {
+                    sh 'cd ./terraform/prod && terraform apply -var-file="prod.tfvars" --auto-approve'
+                }
+            }
+
+        }
+
     }
 }
 
