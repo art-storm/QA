@@ -104,9 +104,8 @@ pipeline {
         }
 
         stage('Deploy to production') {
-            milestone()
-            echo "Building"
-            steps {
+            steps{
+            step {
                 withCredentials([azureServicePrincipal(
                     credentialsId: 'azure-service-principle',
                     subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
@@ -118,7 +117,7 @@ pipeline {
                     sh 'cd ./terraform/prod && terraform init'
                 }
             }
-            steps {
+            step {
                 withCredentials([azureServicePrincipal(
                     credentialsId: 'azure-service-principle',
                     subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
@@ -130,7 +129,7 @@ pipeline {
                     sh 'cd ./terraform/prod && terraform plan -var-file="prod.tfvars" '
                 }
             }
-            steps {
+            step {
                 withCredentials([azureServicePrincipal(
                     credentialsId: 'azure-service-principle',
                     subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
@@ -141,6 +140,7 @@ pipeline {
                 {
                     sh 'cd ./terraform/prod && terraform apply -var-file="prod.tfvars" --auto-approve'
                 }
+            }
             }
 
         }
