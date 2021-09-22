@@ -104,9 +104,10 @@ pipeline {
         }
 
         stage('Deploy to production') {
-            input('Deploy to production?')
             when { branch 'release' }
             steps{
+                input('Deploy to production?')
+
                 withCredentials([azureServicePrincipal(
                     credentialsId: 'azure-service-principle',
                     subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
