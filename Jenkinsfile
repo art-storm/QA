@@ -104,6 +104,7 @@ pipeline {
         }
 
         stage('Deploy to production') {
+            when { branch 'release' }
             steps{
                 withCredentials([azureServicePrincipal(
                     credentialsId: 'azure-service-principle',
