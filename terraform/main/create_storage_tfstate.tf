@@ -39,7 +39,7 @@ resource "azurerm_storage_container" "tfstate-dev" {
 }
 
 resource "azurerm_storage_container" "tfstate-stage" {
-  name                  = "tfstate-stage"
+  name                  = "tfstate-staging"
   storage_account_name  = azurerm_storage_account.tfstate.name
   container_access_type = "blob"
 

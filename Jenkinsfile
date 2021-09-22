@@ -104,7 +104,9 @@ pipeline {
         }
 
         stage('Deploy to production') {
-            when { branch 'release' }
+            when {
+                branch 'release'
+            }
             steps{
                 input('Deploy to production?')
 
