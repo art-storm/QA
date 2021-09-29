@@ -1,31 +1,32 @@
-
-data "azurerm_container_registry" "acr" {
-  name = "crappjavatest"
-  resource_group_name = "rg-main"
+terraform {
+  required_version = ">= 1.0.6"
+  required_providers {
+    azurerm = ">= 2.75"
+  }
 }
 
-resource "azurerm_resource_group" "rg_env" {
-  name = "rg-${var.environment}"
-  location = var.location
+data "azurerm_container_registry" "acr" {
+  name = var.acr_name
+  resource_group_name = var.acr_rg_name
 }
 
 resource "azurerm_app_service_plan" "webapp" {
   name                = "ASP-app-appjava-${var.environment}"
-  location            = azurerm_resource_group.rg_env.location
-  resource_group_name = azurerm_resource_group.rg_env.name
-  kind                = "Linux"
+  location            = var.location
+  resource_group_name = var.rg_name
+  kind                = var.plan_settings["kind"]
   reserved            = true
 
   sku {
-    tier = "Basic"
-    size = "B1"
+    tier = var.plan_settings["tier"]
+    size = var.plan_settings["size"]
   }
 }
 
 resource "azurerm_app_service" "webapp" {
   name                = "app-appjava-${var.environment}"
-  location            = azurerm_resource_group.rg_env.location
-  resource_group_name = azurerm_resource_group.rg_env.name
+  location            = var.location
+  resource_group_name = var.rg_name
   app_service_plan_id = azurerm_app_service_plan.webapp.id
 
   site_config {

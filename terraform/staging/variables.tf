@@ -9,6 +9,16 @@ variable "environment" {
   description = "Environment"
 }
 
+variable "acr_name" {
+  type = string
+  description = "Docker registry name"
+}
+
+variable "acr_rg_name" {
+  type = string
+  description = "Docker registry resource group name"
+}
+
 variable "docker_image" {
   type = string
   description = "Docker image name"

@@ -20,3 +20,26 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+resource "azurerm_resource_group" "rg_env" {
+  name = "rg-${var.environment}"
+  location = var.location
+}
+
+module "webapp" {
+    source            = "github.com/art-storm/terraform-modules/webapp/"
+    rg_name           = azurerm_resource_group.rg_env.name
+    location          = azurerm_resource_group.rg_env.location
+    environment       = var.environment
+    acr_name          = var.acr_name
+    acr_rg_name       = var.acr_rg_name
+    docker_image      = var.docker_image
+    docker_image_tag  = var.docker_image_tag
+    db_connect_string = var.db_connect_string
+
+    plan_settings     = {
+                          kind     = "Linux" # Linux or Windows
+                          tier     = "Basic"
+                          size     = "B1"
+                        }
+}
