@@ -29,6 +29,16 @@ node {
         dockerImage = docker.build imagename
     }
 
+    stage('Push image') {
+        commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
+
+        docker.withRegistry(registryProvider, registryCredential) {
+            dockerImage.push("${commitId}")
+            dockerImage.push("latest")
+        }
+
+    }
+
 }
 
 def getImageName(branch = 'dev') {
