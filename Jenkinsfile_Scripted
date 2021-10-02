@@ -4,10 +4,10 @@ node {
     def registryProvider = 'http://crappjavatest.azurecr.io'
     def registryCredential = 'azure-container-registry'
     def dockerImage = ''
-    def environment = getEnvironment(env.GIT_BRANCH)
+    def environment = getEnvironment(BRANCH_NAME)
 
     stage('Clone sources') {
-        echo BRANCH_NAME
+        echo environment
         checkout scm
     }
 
