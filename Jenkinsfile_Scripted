@@ -7,7 +7,7 @@ node {
     def environment = getEnvironment(env.GIT_BRANCH)
 
     stage('Clone sources') {
-        git url: 'https://github.com/art-storm/QA.git'
+        git branch: 'env.GIT_BRANCH', url: 'https://github.com/art-storm/QA.git'
 
         echo environment
     }
