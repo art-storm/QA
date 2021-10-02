@@ -15,6 +15,16 @@ node {
         sh 'mvn -B -DskipTests clean package'
     }
 
+    try {
+        stage('Test') {
+            sh 'mvn test'
+        }
+    } catch (e) {
+        println $e
+    } finally {
+        junit 'target/surefire-reports/*.xml'
+    }
+
 }
 
 def getImageName(branch = 'dev') {
