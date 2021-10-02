@@ -8,7 +8,7 @@ node {
 
     stage('Clone sources') {
         echo 'Clone branch ' + BRANCH_NAME
-        
+        git branch: BRANCH_NAME, url: 'https://github.com/art-storm/QA.git'
         // checkout scm
     }
 
