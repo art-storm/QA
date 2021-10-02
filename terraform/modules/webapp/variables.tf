@@ -1,12 +1,27 @@
+variable "rg_name" {
+  type = string
+  description = "Webapp resource group name"
+}
 
 variable "location" {
   type = string
-  description = "The Azure Region in which all resources should be created."
+  description = "The Azure Region in which webapp should be created."
 }
 
 variable "environment" {
   type = string
   description = "Environment"
+}
+
+variable "plan_settings" {
+  type        = map
+  description = "Definition of the dedicated plan to use"
+
+  default = {
+    kind     = "Linux"
+    tier     = "Free"
+    size     = "F1"
+  }
 }
 
 variable "acr_name" {
@@ -25,7 +40,6 @@ variable "docker_image" {
 }
 
 variable "docker_image_tag" {
-  default = "latest"
   type = string
   description = "Docker image tag"
 }
