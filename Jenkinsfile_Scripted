@@ -9,7 +9,7 @@ node {
     stage('Clone sources') {
         git branch: 'master', url: 'https://github.com/art-storm/QA.git'
 
-        echo imagename
+        echo environment
     }
 
 }
