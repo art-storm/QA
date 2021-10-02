@@ -7,7 +7,7 @@ node {
     def environment = getEnvironment(env.GIT_BRANCH)
 
     stage('Clone sources') {
-        echo 'Clone branch ' + env.GIT_BRANCH
+        echo env.GIT_BRANCH
         checkout scm
     }
 
