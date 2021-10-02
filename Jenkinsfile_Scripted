@@ -25,6 +25,10 @@ node {
         junit 'target/surefire-reports/*.xml'
     }
 
+    stage('Building image') {
+        dockerImage = docker.build imagename
+    }
+
 }
 
 def getImageName(branch = 'dev') {
