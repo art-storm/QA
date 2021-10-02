@@ -1,0 +1,31 @@
+node {
+
+    def imagename = getImageName(env.GIT_BRANCH)
+    def registryProvider = 'http://crappjavatest.azurecr.io'
+    def registryCredential = 'azure-container-registry'
+    def dockerImage = ''
+    def environment = getEnvironment(env.GIT_BRANCH)
+
+    stage('Clone sources') {
+        git branch: 'master', url: 'https://github.com/art-storm/QA.git'
+    }
+
+}
+
+def getImageName(branch = 'dev') {
+    def imagename = "crappjavatest/dev-app-java"
+    if (branch == 'release') {
+        imagename = "crappjavatest/rc-app-java"
+    }
+
+    return imagename
+}
+
+def getEnvironment(branch = 'dev') {
+    def env = "dev"
+    if (branch == 'release') {
+        env = "staging"
+    }
+
+    return env
+}
