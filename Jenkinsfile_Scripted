@@ -22,7 +22,7 @@ node {
     } catch (e) {
         println $e
     } finally {
-        junit 'target/surefire-reports/*.xml'
+        // junit 'target/surefire-reports/*.xml'
     }
 
     stage('Building image') {
