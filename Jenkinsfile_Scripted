@@ -54,7 +54,7 @@ node {
             tenantIdVariable: 'ARM_TENANT_ID'
             )])
         {
-            sh 'cd ./terraform/${environment} && terraform init'
+            sh "cd ./terraform/${environment} && terraform init"
         }
     }
 
