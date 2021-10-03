@@ -57,6 +57,25 @@ node {
         execTerraform(command)
     }
 
+    stage('Deploy to production') {
+        when {
+            branch 'release'
+        }
+        input('Deploy to production?')
+        milestone()
+
+        env_prod = 'prod'
+
+        command = "cd ./terraform/${env_prod} && terraform init"
+        execTerraform(command)
+
+        command = "cd ./terraform/${env_prod} && terraform plan -var-file='${env_prod}.tfvars' "
+        execTerraform(command)
+        
+        command = "cd ./terraform/${env_prod} && terraform apply -var-file='${env_prod}.tfvars' --auto-approve "
+        execTerraform(command)
+    }
+
 }
 
 def getImageName(branch = 'dev') {
