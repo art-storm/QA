@@ -12,34 +12,34 @@ node {
     }
 
     stage('Build') {
-        // sh 'mvn -B -DskipTests clean package'
+        sh 'mvn -B -DskipTests clean package'
     }
 
     try {
         stage('Test') {
-            // sh 'mvn test'
+            sh 'mvn test'
         }
     } catch (e) {
         println $e
     } finally {
-        // junit 'target/surefire-reports/*.xml'
+        junit 'target/surefire-reports/*.xml'
     }
 
     stage('Building image') {
-        // dockerImage = docker.build imagename
+        dockerImage = docker.build imagename
     }
 
     stage('Push image') {
-        // commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
+        commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
 
-        // docker.withRegistry(registryProvider, registryCredential) {
-        //     dockerImage.push("${commitId}")
-        //     dockerImage.push("latest")
-        // }
+        docker.withRegistry(registryProvider, registryCredential) {
+            dockerImage.push("${commitId}")
+            dockerImage.push("latest")
+        }
     }
 
     stage('Cleaning up') {
-        // sh "docker images | grep '$imagename' | awk '{print \$3}' | xargs docker rmi -f"
+        sh "docker images | grep '$imagename' | awk '{print \$3}' | xargs docker rmi -f"
     }
 
     stage('Terraform init') {
@@ -48,16 +48,16 @@ node {
     }
 
     stage('Terraform plan') {
-        // command = "cd ./terraform/${environment} && terraform plan -var-file='${environment}.tfvars' "
-        // execTerraform(command)
+        command = "cd ./terraform/${environment} && terraform plan -var-file='${environment}.tfvars' "
+        execTerraform(command)
     }
 
     stage('Terraform apply') {
-        // command = "cd ./terraform/${environment} && terraform apply -var-file='${environment}.tfvars' --auto-approve "
-        // execTerraform(command)
+        command = "cd ./terraform/${environment} && terraform apply -var-file='${environment}.tfvars' --auto-approve "
+        execTerraform(command)
     }
 
-    if (BRANCH_NAME == 'dev') {
+    if (BRANCH_NAME == 'release') {
         stage('Deploy to production') {
 
             input('Deploy to production?')
@@ -68,11 +68,11 @@ node {
             command = "cd ./terraform/${env_prod} && terraform init"
             execTerraform(command)
 
-            // command = "cd ./terraform/${env_prod} && terraform plan -var-file='${env_prod}.tfvars' "
-            // execTerraform(command)
+            command = "cd ./terraform/${env_prod} && terraform plan -var-file='${env_prod}.tfvars' "
+            execTerraform(command)
 
-            // command = "cd ./terraform/${env_prod} && terraform apply -var-file='${env_prod}.tfvars' --auto-approve "
-            // execTerraform(command)
+            command = "cd ./terraform/${env_prod} && terraform apply -var-file='${env_prod}.tfvars' --auto-approve "
+            execTerraform(command)
         }
     }
 
