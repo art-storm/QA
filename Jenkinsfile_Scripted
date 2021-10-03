@@ -26,16 +26,16 @@ node {
     }
 
     stage('Building image') {
-        dockerImage = docker.build imagename
+        // dockerImage = docker.build imagename
     }
 
     stage('Push image') {
-        commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
+        // commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
 
-        docker.withRegistry(registryProvider, registryCredential) {
-            dockerImage.push("${commitId}")
-            dockerImage.push("latest")
-        }
+        // docker.withRegistry(registryProvider, registryCredential) {
+        //     dockerImage.push("${commitId}")
+        //     dockerImage.push("latest")
+        // }
     }
 
     stage('Cleaning up') {
@@ -46,29 +46,29 @@ node {
 
         echo BRANCH_NAME
 
-        withCredentials([azureServicePrincipal(
-            credentialsId: 'azure-service-principle',
-            subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
-            clientIdVariable: 'ARM_CLIENT_ID',
-            clientSecretVariable: 'ARM_CLIENT_SECRET',
-            tenantIdVariable: 'ARM_TENANT_ID'
-            )])
-        {
-            sh 'cd ./terraform/${environment} && terraform init'
-        }
+        // withCredentials([azureServicePrincipal(
+        //     credentialsId: 'azure-service-principle',
+        //     subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+        //     clientIdVariable: 'ARM_CLIENT_ID',
+        //     clientSecretVariable: 'ARM_CLIENT_SECRET',
+        //     tenantIdVariable: 'ARM_TENANT_ID'
+        //     )])
+        // {
+        //     sh 'cd ./terraform/${environment} && terraform init'
+        // }
     }
 
     stage('Terraform plan') {
-        withCredentials([azureServicePrincipal(
-            credentialsId: 'azure-service-principle',
-            subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
-            clientIdVariable: 'ARM_CLIENT_ID',
-            clientSecretVariable: 'ARM_CLIENT_SECRET',
-            tenantIdVariable: 'ARM_TENANT_ID'
-            )])
-        {
-            sh 'cd ./terraform/${environment} && terraform plan -var-file="${environment}.tfvars" '
-        }
+        // withCredentials([azureServicePrincipal(
+        //     credentialsId: 'azure-service-principle',
+        //     subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+        //     clientIdVariable: 'ARM_CLIENT_ID',
+        //     clientSecretVariable: 'ARM_CLIENT_SECRET',
+        //     tenantIdVariable: 'ARM_TENANT_ID'
+        //     )])
+        // {
+        //     sh 'cd ./terraform/${environment} && terraform plan -var-file="${environment}.tfvars" '
+        // }
     }
 
 }
