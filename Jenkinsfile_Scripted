@@ -43,6 +43,9 @@ node {
     }
 
     stage('Terraform init') {
+
+        echo BRANCH_NAME
+
         withCredentials([azureServicePrincipal(
             credentialsId: 'azure-service-principle',
             subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
