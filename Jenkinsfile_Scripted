@@ -6,11 +6,11 @@ library identifier: 'jenkins-shared-lib@master',
 
 node {
 
-    def imagename = getImageName(BRANCH_NAME)
+    def imagename = helpers.getImageName(BRANCH_NAME)
     def registryProvider = 'http://crappjavatest.azurecr.io'
     def registryCredential = 'azure-container-registry'
     def dockerImage = ''
-    def environment = getEnvironment(BRANCH_NAME)
+    def environment = helpers.getEnvironment(BRANCH_NAME)
 
     stage('Clone sources') {
         echo 'Clone branch ' + BRANCH_NAME
