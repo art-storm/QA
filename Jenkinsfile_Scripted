@@ -12,12 +12,12 @@ node {
     }
 
     stage('Build') {
-        sh 'mvn -B -DskipTests clean package'
+        // sh 'mvn -B -DskipTests clean package'
     }
 
     try {
         stage('Test') {
-            sh 'mvn test'
+            // sh 'mvn test'
         }
     } catch (e) {
         println $e
@@ -39,7 +39,7 @@ node {
     }
 
     stage('Cleaning up') {
-        sh "docker images | grep '$imagename' | awk '{print \$3}' | xargs docker rmi -f"
+        // sh "docker images | grep '$imagename' | awk '{print \$3}' | xargs docker rmi -f"
     }
 
     stage('Terraform init') {
