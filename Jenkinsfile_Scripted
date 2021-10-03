@@ -36,7 +36,10 @@ node {
             dockerImage.push("${commitId}")
             dockerImage.push("latest")
         }
+    }
 
+    stage('Cleaning up') {
+        sh "docker images | grep '$imagename' | awk '{print \$3}' | xargs docker rmi -f"
     }
 
 }
