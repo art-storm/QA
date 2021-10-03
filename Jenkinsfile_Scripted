@@ -6,7 +6,7 @@ library identifier: 'jenkins-share-lib@master',
 
 node {
 
-    def imagename = getImageName(BRANCH_NAME)
+    def imagename = getImageName BRANCH_NAME
     def registryProvider = 'http://crappjavatest.azurecr.io'
     def registryCredential = 'azure-container-registry'
     def dockerImage = ''
