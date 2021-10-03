@@ -57,7 +57,7 @@ node {
         // execTerraform(command)
     }
 
-    if (BRANCH_NAME == 'release') {
+    if (BRANCH_NAME == 'dev') {
         stage('Deploy to production') {
 
             input('Deploy to production?')
@@ -68,11 +68,11 @@ node {
             command = "cd ./terraform/${env_prod} && terraform init"
             execTerraform(command)
 
-            command = "cd ./terraform/${env_prod} && terraform plan -var-file='${env_prod}.tfvars' "
-            execTerraform(command)
+            // command = "cd ./terraform/${env_prod} && terraform plan -var-file='${env_prod}.tfvars' "
+            // execTerraform(command)
 
-            command = "cd ./terraform/${env_prod} && terraform apply -var-file='${env_prod}.tfvars' --auto-approve "
-            execTerraform(command)
+            // command = "cd ./terraform/${env_prod} && terraform apply -var-file='${env_prod}.tfvars' --auto-approve "
+            // execTerraform(command)
         }
     }
 
