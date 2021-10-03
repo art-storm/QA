@@ -1,18 +1,16 @@
-@Library('jenkins-shared-lib')_
-
-// library identifier: 'jenkins-share-lib@master',
-//     retriever: modernSCM([
-//       $class: 'GitSCMSource',
-//       remote: 'https://github.com/art-storm/jenkins-shared-lib.git'
-// ])
+library identifier: 'jenkins-shared-lib@master',
+    retriever: modernSCM([
+      $class: 'GitSCMSource',
+      remote: 'https://github.com/art-storm/jenkins-shared-lib.git'
+])
 
 node {
 
-    def imagename = getImageName BRANCH_NAME
+    def imagename = getImageName(BRANCH_NAME)
     def registryProvider = 'http://crappjavatest.azurecr.io'
     def registryCredential = 'azure-container-registry'
     def dockerImage = ''
-    def environment = getEnvironment BRANCH_NAME
+    def environment = getEnvironment(BRANCH_NAME)
 
     stage('Clone sources') {
         echo 'Clone branch ' + BRANCH_NAME
