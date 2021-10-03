@@ -50,17 +50,17 @@ node {
 
     stage('Terraform init') {
         command = "cd ./terraform/${environment} && terraform init"
-        execTerraform(command)
+        helpers.execTerraform(command)
     }
 
     stage('Terraform plan') {
         command = "cd ./terraform/${environment} && terraform plan -var-file='${environment}.tfvars' "
-        execTerraform(command)
+        helpers.execTerraform(command)
     }
 
     stage('Terraform apply') {
         command = "cd ./terraform/${environment} && terraform apply -var-file='${environment}.tfvars' --auto-approve "
-        execTerraform(command)
+        helpers.execTerraform(command)
     }
 
     if (BRANCH_NAME == 'release') {
@@ -72,13 +72,13 @@ node {
             env_prod = 'prod'
 
             command = "cd ./terraform/${env_prod} && terraform init"
-            execTerraform(command)
+            helpers.execTerraform(command)
 
             command = "cd ./terraform/${env_prod} && terraform plan -var-file='${env_prod}.tfvars' "
-            execTerraform(command)
+            helpers.execTerraform(command)
 
             command = "cd ./terraform/${env_prod} && terraform apply -var-file='${env_prod}.tfvars' --auto-approve "
-            execTerraform(command)
+            helpers.execTerraform(command)
         }
     }
 
