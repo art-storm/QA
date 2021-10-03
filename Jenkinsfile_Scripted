@@ -1,6 +1,6 @@
-node {
+@Library('jenkins-shared-lib')_
 
-    @Library('jenkins-shared-lib')_
+node {
 
     def imagename = getImageName(BRANCH_NAME)
     def registryProvider = 'http://crappjavatest.azurecr.io'
