@@ -42,6 +42,19 @@ node {
         sh "docker images | grep '$imagename' | awk '{print \$3}' | xargs docker rmi -f"
     }
 
+    stage('Terraform init') {
+        withCredentials([azureServicePrincipal(
+            credentialsId: 'azure-service-principle',
+            subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+            clientIdVariable: 'ARM_CLIENT_ID',
+            clientSecretVariable: 'ARM_CLIENT_SECRET',
+            tenantIdVariable: 'ARM_TENANT_ID'
+            )])
+        {
+            sh 'cd ./terraform/${environment} && terraform init'
+        }
+    }
+
 }
 
 def getImageName(branch = 'dev') {
