@@ -109,7 +109,6 @@ pipeline {
             }
             steps{
                 input('Deploy to production?')
-                milestone()
 
                 withCredentials([azureServicePrincipal(
                     credentialsId: 'azure-service-principle',
