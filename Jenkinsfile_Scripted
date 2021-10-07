@@ -1,0 +1,85 @@
+library identifier: 'jenkins-shared-lib@master',
+    retriever: modernSCM([
+      $class: 'GitSCMSource',
+      remote: 'https://github.com/art-storm/jenkins-shared-lib.git'
+])
+
+node {
+
+    def imagename = helpers.getImageName(BRANCH_NAME)
+    def registryProvider = 'http://crappjavatest.azurecr.io'
+    def registryCredential = 'azure-container-registry'
+    def dockerImage = ''
+    def environment = helpers.getEnvironment(BRANCH_NAME)
+
+    stage('Clone sources') {
+        echo 'Clone branch ' + BRANCH_NAME
+        checkout scm
+    }
+
+    stage('Build') {
+        sh 'mvn -B -DskipTests clean package'
+    }
+
+    try {
+        stage('Test') {
+            sh 'mvn test'
+        }
+    } catch (e) {
+        println $e
+    } finally {
+        junit 'target/surefire-reports/*.xml'
+    }
+
+    stage('Building image') {
+        dockerImage = docker.build imagename
+    }
+
+    stage('Push image') {
+        commitId = sh(returnStdout: true, script: 'git rev-parse HEAD')
+
+        docker.withRegistry(registryProvider, registryCredential) {
+            dockerImage.push("${commitId}")
+            dockerImage.push("latest")
+        }
+    }
+
+    stage('Cleaning up') {
+        sh "docker images | grep '$imagename' | awk '{print \$3}' | xargs docker rmi -f"
+    }
+
+    stage('Terraform init') {
+        command = "cd ./terraform/${environment} && terraform init"
+        helpers.execTerraform(command)
+    }
+
+    stage('Terraform plan') {
+        command = "cd ./terraform/${environment} && terraform plan -var-file='${environment}.tfvars' "
+        helpers.execTerraform(command)
+    }
+
+    stage('Terraform apply') {
+        command = "cd ./terraform/${environment} && terraform apply -var-file='${environment}.tfvars' --auto-approve "
+        helpers.execTerraform(command)
+    }
+
+    if (BRANCH_NAME == 'release') {
+        stage('Deploy to production') {
+
+            input('Deploy to production?')
+            milestone()
+
+            env_prod = 'prod'
+
+            command = "cd ./terraform/${env_prod} && terraform init"
+            helpers.execTerraform(command)
+
+            command = "cd ./terraform/${env_prod} && terraform plan -var-file='${env_prod}.tfvars' "
+            helpers.execTerraform(command)
+
+            command = "cd ./terraform/${env_prod} && terraform apply -var-file='${env_prod}.tfvars' --auto-approve "
+            helpers.execTerraform(command)
+        }
+    }
+
+}
