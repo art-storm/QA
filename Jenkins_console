@@ -1,0 +1,31 @@
+'curl -I -u user:token http://192.168.1.165:8080//job/Test%20triggered%20pipeline/build?token=test-trigger-token'.execute()
+
+def jobName = 'Test triggered pipeline'
+
+def job = Jenkins.instance.getItemByFullName("Test triggered pipeline")
+
+job.lastBuild.number
+
+Jenkins.getInstance().getItemByFullName(jobName).getBuildByNumber(job.lastBuild.number).logFile.text
+
+
+
+
+void printAllMethods( obj ){
+    if( !obj ){
+		println( "Object is null\r\n" );
+		return;
+    }
+	if( !obj.metaClass && obj.getClass() ){
+        printAllMethods( obj.getClass() );
+		return;
+    }
+	def str = "class ${obj.getClass().name} functions:\r\n";
+	obj.metaClass.methods.name.unique().each{
+		str += it+"(); ";
+	}
+	println "${str}\r\n";
+}
+printAllMethods( job );
+
+job.isBuilding()
